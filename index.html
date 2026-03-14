@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Papelito</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+padding:40px;
+background:#f2f2f2;
+}
+
+input{
+padding:10px;
+margin:5px;
+}
+
+button{
+padding:10px 20px;
+margin:10px;
+}
+
+#paper{
+font-size:40px;
+margin-top:40px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Papelito</h1>
+
+<input id="wordInput" placeholder="Agregar palabra">
+<button onclick="addWord()">Agregar</button>
+
+<div id="wordList"></div>
+
+<button onclick="startGame()">Iniciar Juego</button>
+
+<h2 id="paper">Sacar papelito</h2>
+
+<button onclick="draw()">Sacar</button>
+
+<script>
+
+let words=[]
+let deck=[]
+
+function addWord(){
+
+let input=document.getElementById("wordInput")
+let word=input.value.trim()
+
+if(word=="") return
+
+if(words.includes(word)){
+alert("Palabra repetida")
+return
+}
+
+words.push(word)
+input.value=""
+
+render()
+}
+
+function render(){
+
+let list=document.getElementById("wordList")
+list.innerHTML=""
+
+words.forEach(w=>{
+let div=document.createElement("div")
+div.innerText=w
+list.appendChild(div)
+})
+
+}
+
+function shuffle(array){
+
+for(let i=array.length-1;i>0;i--){
+
+let j=Math.floor(Math.random()*(i+1))
+
+let temp=array[i]
+array[i]=array[j]
+array[j]=temp
+
+}
+
+return array
+}
+
+function startGame(){
+
+deck=shuffle([...words])
+alert("Juego iniciado")
+
+}
+
+function draw(){
+
+if(deck.length==0){
+
+deck=shuffle([...words])
+alert("Se reinició la bolsa")
+
+}
+
+let word=deck.shift()
+
+document.getElementById("paper").innerText=word
+
+}
+
+</script>
+
+</body>
+</html>
