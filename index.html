@@ -1,446 +1,232 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Papelito</title>
-  <style>
-    body{
-      font-family: Arial, sans-serif;
-      background:#f4f4f4;
-      margin:0;
-      padding:24px 16px 40px;
-      text-align:center;
-      color:#111;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Papelito</title>
 
-    .container{
-      max-width:700px;
-      margin:0 auto;
-      background:white;
-      border-radius:18px;
-      padding:20px 16px 28px;
-      box-shadow:0 10px 30px rgba(0,0,0,.08);
-    }
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+margin:0;
+padding:30px;
+text-align:center;
+}
 
-    h1{
-      margin-top:0;
-      margin-bottom:10px;
-      font-size:42px;
-    }
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:15px;
+}
 
-    .sub{
-      color:#666;
-      font-size:14px;
-      margin-bottom:20px;
-    }
+input{
+width:100%;
+padding:10px;
+margin:5px 0;
+border-radius:8px;
+border:1px solid #ccc;
+}
 
-    input{
-      width:100%;
-      box-sizing:border-box;
-      padding:12px;
-      margin:6px 0;
-      border:1px solid #d0d0d0;
-      border-radius:10px;
-      font-size:16px;
-    }
+button{
+padding:10px 15px;
+margin:5px;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
 
-    button{
-      padding:12px 16px;
-      margin:6px 4px;
-      border:none;
-      border-radius:10px;
-      font-size:16px;
-      font-weight:700;
-      cursor:pointer;
-    }
+.primary{background:black;color:white;}
+.secondary{background:#ddd;}
+.danger{background:#c62828;color:white;}
+.success{background:#2e7d32;color:white;}
 
-    .primary{ background:#111; color:white; }
-    .secondary{ background:#eaeaea; color:#111; }
-    .danger{ background:#c62828; color:white; }
-    .success{ background:#2e7d32; color:white; }
+.list{
+background:#fafafa;
+border:1px solid #ddd;
+border-radius:10px;
+padding:10px;
+margin-top:10px;
+text-align:left;
+}
 
-    button:disabled{
-      opacity:.5;
-      cursor:not-allowed;
-    }
+.item{
+padding:6px;
+border-bottom:1px solid #eee;
+font-weight:bold;
+}
 
-    .counter{
-      margin:16px 0 10px;
-      font-size:18px;
-      font-weight:700;
-    }
+.result{
+font-size:30px;
+margin-top:20px;
+}
 
-    .list{
-      background:#fafafa;
-      border:1px solid #e5e5e5;
-      border-radius:12px;
-      padding:12px;
-      min-height:80px;
-      margin-bottom:18px;
-      text-align:left;
-    }
+</style>
 
-    .item{
-      padding:8px 10px;
-      border-bottom:1px solid #eee;
-      font-weight:700;
-      letter-spacing:1px;
-    }
-
-    .item:last-child{
-      border-bottom:none;
-    }
-
-    .stage{
-      margin-top:18px;
-      padding-top:18px;
-      border-top:1px solid #eee;
-    }
-
-    .card{
-      margin-top:12px;
-      background:#fff8e1;
-      border:1px solid #f0d58a;
-      border-radius:16px;
-      padding:18px 14px;
-    }
-
-    .word{
-      font-size:34px;
-      font-weight:900;
-      margin-bottom:14px;
-      word-break:break-word;
-    }
-
-    .rule{
-      font-size:18px;
-      margin:8px 0;
-      line-height:1.4;
-    }
-
-    .status{
-      margin-top:10px;
-      color:#666;
-      font-size:14px;
-    }
-  </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Papelito</h1>
-    <div class="sub">Máximo recomendado: 10 jugadores</div>
 
-    <div id="addSection">
-      <input id="paperName" placeholder="Nombre del papelito" maxlength="50" />
-      <input id="rule1" placeholder="Restricción 1" maxlength="100" />
-      <input id="rule2" placeholder="Restricción 2" maxlength="100" />
+<div class="container">
 
-      <button class="primary" id="addBtn">Agregar</button>
-    </div>
+<h1>Papelito</h1>
 
-    <div class="counter">
-      Papelitos agregados: <span id="paperCount">0</span>
-    </div>
+<input id="nombre" placeholder="Nombre del papelito">
+<input id="r1" placeholder="Restricción 1">
+<input id="r2" placeholder="Restricción 2">
 
-    <div class="list" id="papersList">
-      <div class="status">Todavía no hay papelitos.</div>
-    </div>
+<button class="primary" onclick="agregar()">Agregar Papelito</button>
 
-    <div>
-      <button class="success" id="startBtn">Iniciar juego</button>
-      <button class="secondary" id="drawBtn" disabled>Sacar</button>
-      <button class="secondary" id="newRoundBtn" disabled>Empezar nuevo round</button>
-      <button class="danger" id="clearBtn">Limpiar todo</button>
-    </div>
+<h3>Papelitos agregados: <span id="contador">0</span></h3>
 
-    <div class="stage">
-      <div class="card" id="resultCard" style="display:none;">
-        <div class="word" id="resultWord"></div>
-        <div class="rule" id="resultRule1"></div>
-        <div class="rule" id="resultRule2"></div>
-      </div>
+<div id="lista" class="list"></div>
 
-      <div class="status" id="gameStatus">
-        Agreguen papelitos y luego presionen "Iniciar juego".
-      </div>
-    </div>
-  </div>
+<br>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      getDocs,
-      doc,
-      getDoc,
-      setDoc,
-      updateDoc,
-      deleteDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<button class="success" onclick="iniciar()">Iniciar Juego</button>
+<button class="secondary" onclick="sacar()" id="sacarBtn" disabled>Sacar</button>
+<button class="secondary" onclick="nuevoRound()">Nuevo Round</button>
+<button class="danger" onclick="limpiar()">Limpiar</button>
 
-    const firebaseConfig = {
-      apiKey: "PEGA_AQUI_TU_API_KEY_EXACTO",
-      authDomain: "papelito-online-fb43b.firebaseapp.com",
-      projectId: "papelito-online-fb43b",
-      storageBucket: "papelito-online-fb43b.firebasestorage.app",
-      messagingSenderId: "583178798392",
-      appId: "PEGA_AQUI_TU_APP_ID_EXACTO"
-    };
+<div id="resultado" class="result"></div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+</div>
 
-    const STATE_DOC_ID = "main";
+<script type="module">
 
-    const paperName = document.getElementById("paperName");
-    const rule1 = document.getElementById("rule1");
-    const rule2 = document.getElementById("rule2");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    const addBtn = document.getElementById("addBtn");
-    const startBtn = document.getElementById("startBtn");
-    const drawBtn = document.getElementById("drawBtn");
-    const newRoundBtn = document.getElementById("newRoundBtn");
-    const clearBtn = document.getElementById("clearBtn");
+const firebaseConfig = {
+apiKey: "AIzaSyD8EqWPqg-VGR-PUExwnqtdy_CXPBRNHGk",
+authDomain: "papelito-online-fb43b.firebaseapp.com",
+projectId: "papelito-online-fb43b",
+storageBucket: "papelito-online-fb43b.firebasestorage.app",
+messagingSenderId: "583178798392",
+appId: "1:583178798392:web:c0e34238e3d6915c602dcd"
+};
 
-    const paperCount = document.getElementById("paperCount");
-    const papersList = document.getElementById("papersList");
-    const resultCard = document.getElementById("resultCard");
-    const resultWord = document.getElementById("resultWord");
-    const resultRule1 = document.getElementById("resultRule1");
-    const resultRule2 = document.getElementById("resultRule2");
-    const gameStatus = document.getElementById("gameStatus");
-    const addSection = document.getElementById("addSection");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    async function ensureState() {
-      const ref = doc(db, "gameState", STATE_DOC_ID);
-      const snap = await getDoc(ref);
+let papelitos=[];
+let usados=[];
 
-      if (!snap.exists()) {
-        await setDoc(ref, {
-          started: false,
-          usedIds: [],
-          currentId: null
-        });
-      }
-    }
+async function cargar(){
 
-    function shuffle(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
+const snapshot=await getDocs(collection(db,"papelitos"));
 
-    async function getAllPapers() {
-      const snapshot = await getDocs(collection(db, "papelitos"));
-      const papers = [];
-      snapshot.forEach((d) => {
-        papers.push({ id: d.id, ...d.data() });
-      });
-      return papers;
-    }
+papelitos=[];
+snapshot.forEach(doc=>{
+papelitos.push({id:doc.id,...doc.data()});
+});
 
-    async function getState() {
-      const ref = doc(db, "gameState", STATE_DOC_ID);
-      const snap = await getDoc(ref);
-      return snap.data();
-    }
+document.getElementById("contador").innerText=papelitos.length;
 
-    function renderHiddenList(count) {
-      paperCount.textContent = count;
+let html="";
 
-      if (count === 0) {
-        papersList.innerHTML = `<div class="status">Todavía no hay papelitos.</div>`;
-        return;
-      }
+for(let i=0;i<papelitos.length;i++){
 
-      let html = "";
-      for (let i = 1; i <= count; i++) {
-        html += `<div class="item">Papelito ${i}: XXXXX</div>`;
-      }
-      papersList.innerHTML = html;
-    }
+html+=`<div class="item">XXXXX</div>`;
 
-    function showResult(paper) {
-      resultCard.style.display = "block";
-      resultWord.textContent = paper.name;
-      resultRule1.textContent = "Restricción 1: " + paper.rule1;
-      resultRule2.textContent = "Restricción 2: " + paper.rule2;
-    }
+}
 
-    function hideResult() {
-      resultCard.style.display = "none";
-      resultWord.textContent = "";
-      resultRule1.textContent = "";
-      resultRule2.textContent = "";
-    }
+document.getElementById("lista").innerHTML=html;
 
-    async function refreshUI() {
-      await ensureState();
-      const papers = await getAllPapers();
-      const state = await getState();
+}
 
-      renderHiddenList(papers.length);
+window.agregar=async function(){
 
-      if (!state.started) {
-        addSection.style.display = "block";
-        addBtn.disabled = false;
-        startBtn.disabled = papers.length === 0;
-        drawBtn.disabled = true;
-        newRoundBtn.disabled = true;
-        gameStatus.textContent = 'Agreguen papelitos y luego presionen "Iniciar juego".';
-        hideResult();
-        return;
-      }
+let nombre=document.getElementById("nombre").value;
+let r1=document.getElementById("r1").value;
+let r2=document.getElementById("r2").value;
 
-      addSection.style.display = "none";
-      addBtn.disabled = true;
-      startBtn.disabled = true;
+if(!nombre||!r1||!r2)return;
 
-      const usedIds = state.usedIds || [];
-      const total = papers.length;
-      const remaining = total - usedIds.length;
+await addDoc(collection(db,"papelitos"),{
+nombre,
+r1,
+r2
+});
 
-      if (remaining > 0) {
-        drawBtn.disabled = false;
-        newRoundBtn.disabled = true;
-        gameStatus.textContent = `Juego iniciado. Papelitos restantes: ${remaining}.`;
-      } else {
-        drawBtn.disabled = true;
-        newRoundBtn.disabled = total === 0;
-        gameStatus.textContent = "No quedan papelitos. Presiona 'Empezar nuevo round'.";
-      }
+document.getElementById("nombre").value="";
+document.getElementById("r1").value="";
+document.getElementById("r2").value="";
 
-      if (state.currentId) {
-        const current = papers.find(p => p.id === state.currentId);
-        if (current) {
-          showResult(current);
-        } else {
-          hideResult();
-        }
-      } else {
-        hideResult();
-      }
-    }
+cargar();
 
-    async function addPaper() {
-      const name = paperName.value.trim();
-      const r1 = rule1.value.trim();
-      const r2 = rule2.value.trim();
+}
 
-      if (!name || !r1 || !r2) {
-        alert("Debes completar nombre del papelito y las 2 restricciones.");
-        return;
-      }
+window.iniciar=function(){
 
-      const state = await getState();
-      if (state.started) {
-        alert("El juego ya empezó. Ya no se pueden agregar papelitos.");
-        return;
-      }
+document.getElementById("sacarBtn").disabled=false;
 
-      await addDoc(collection(db, "papelitos"), {
-        name,
-        rule1: r1,
-        rule2: r2,
-        createdAt: Date.now()
-      });
+}
 
-      paperName.value = "";
-      rule1.value = "";
-      rule2.value = "";
+window.sacar=function(){
 
-      await refreshUI();
-    }
+let disponibles=papelitos.filter(p=>!usados.includes(p.id));
 
-    async function startGame() {
-      const papers = await getAllPapers();
-      if (papers.length === 0) {
-        alert("No hay papelitos para iniciar.");
-        return;
-      }
+if(disponibles.length===0){
 
-      await updateDoc(doc(db, "gameState", STATE_DOC_ID), {
-        started: true,
-        usedIds: [],
-        currentId: null
-      });
+document.getElementById("resultado").innerHTML="No quedan papelitos";
 
-      await refreshUI();
-    }
+return;
 
-    async function drawPaper() {
-      const papers = await getAllPapers();
-      const state = await getState();
+}
 
-      if (!state.started) return;
+let random=disponibles[Math.floor(Math.random()*disponibles.length)];
 
-      const usedIds = state.usedIds || [];
-      const available = papers.filter(p => !usedIds.includes(p.id));
+usados.push(random.id);
 
-      if (available.length === 0) {
-        await refreshUI();
-        return;
-      }
+document.getElementById("resultado").innerHTML=
 
-      const shuffled = shuffle(available);
-      const selected = shuffled[0];
+random.nombre+
+"<br>"+random.r1+
+"<br>"+random.r2;
 
-      await updateDoc(doc(db, "gameState", STATE_DOC_ID), {
-        currentId: selected.id,
-        usedIds: [...usedIds, selected.id]
-      });
+}
 
-      await refreshUI();
-    }
+window.nuevoRound=function(){
 
-    async function newRound() {
-      const papers = await getAllPapers();
-      if (papers.length === 0) {
-        alert("No hay papelitos guardados.");
-        return;
-      }
+usados=[];
 
-      await updateDoc(doc(db, "gameState", STATE_DOC_ID), {
-        started: true,
-        usedIds: [],
-        currentId: null
-      });
+document.getElementById("resultado").innerHTML="";
 
-      await refreshUI();
-    }
+}
 
-    async function clearAll() {
-      const ok = confirm("Esto borrará todos los papelitos y reiniciará el juego. ¿Continuar?");
-      if (!ok) return;
+window.limpiar=async function(){
 
-      const papers = await getAllPapers();
+const snapshot=await getDocs(collection(db,"papelitos"));
 
-      for (const p of papers) {
-        await deleteDoc(doc(db, "papelitos", p.id));
-      }
+for(const d of snapshot.docs){
 
-      await setDoc(doc(db, "gameState", STATE_DOC_ID), {
-        started: false,
-        usedIds: [],
-        currentId: null
-      });
+await deleteDoc(doc(db,"papelitos",d.id));
 
-      await refreshUI();
-    }
+}
 
-    addBtn.addEventListener("click", addPaper);
-    startBtn.addEventListener("click", startGame);
-    drawBtn.addEventListener("click", drawPaper);
-    newRoundBtn.addEventListener("click", newRound);
-    clearBtn.addEventListener("click", clearAll);
+papelitos=[];
+usados=[];
 
-    await refreshUI();
-  </script>
+document.getElementById("resultado").innerHTML="";
+
+cargar();
+
+}
+
+cargar();
+
+</script>
+
 </body>
 </html>
