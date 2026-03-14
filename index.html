@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Papelito</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-
 body{
 font-family:Arial;
 text-align:center;
-padding:40px;
-background:#f2f2f2;
+margin-top:40px;
 }
 
 input{
 padding:10px;
 margin:5px;
+width:250px;
 }
 
 button{
 padding:10px 20px;
-margin:10px;
+margin:5px;
+font-size:16px;
 }
 
-#paper{
+#resultado{
 font-size:40px;
-margin-top:40px;
+margin-top:30px;
+font-weight:bold;
 }
-
 </style>
 
 </head>
@@ -36,87 +36,78 @@ margin-top:40px;
 
 <h1>Papelito</h1>
 
-<input id="wordInput" placeholder="Agregar palabra">
-<button onclick="addWord()">Agregar</button>
+<input id="nombre" placeholder="Palabra">
+<br>
 
-<div id="wordList"></div>
+<input id="r1" placeholder="Restricción 1">
+<br>
 
-<button onclick="startGame()">Iniciar Juego</button>
+<input id="r2" placeholder="Restricción 2">
+<br>
 
-<h2 id="paper">Sacar papelito</h2>
+<button onclick="agregar()">Agregar Papelito</button>
 
-<button onclick="draw()">Sacar</button>
+<br><br>
 
-<script>
+<button onclick="sacar()">Sacar</button>
 
-let words=[]
-let deck=[]
+<div id="resultado"></div>
 
-function addWord(){
+<script type="module">
 
-let input=document.getElementById("wordInput")
-let word=input.value.trim()
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-if(word=="") return
+const firebaseConfig = {
+apiKey: "AIzaSyD8EqWPqg-VGR-PUExwnqtdy",
+authDomain: "papelito-online-fb43b.firebaseapp.com",
+projectId: "papelito-online-fb43b",
+storageBucket: "papelito-online-fb43b.firebasestorage.app",
+messagingSenderId: "583178798392",
+appId: "1:583178798392:web:c0e34238e3"
+};
 
-if(words.includes(word)){
-alert("Palabra repetida")
-return
-}
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-words.push(word)
-input.value=""
+async function agregar(){
 
-render()
-}
+let palabra=document.getElementById("nombre").value
+let r1=document.getElementById("r1").value
+let r2=document.getElementById("r2").value
 
-function render(){
+if(!palabra)return
 
-let list=document.getElementById("wordList")
-list.innerHTML=""
-
-words.forEach(w=>{
-let div=document.createElement("div")
-div.innerText=w
-list.appendChild(div)
+await addDoc(collection(db,"papelitos"),{
+palabra:palabra,
+r1:r1,
+r2:r2
 })
 
-}
+document.getElementById("nombre").value=""
+document.getElementById("r1").value=""
+document.getElementById("r2").value=""
 
-function shuffle(array){
-
-for(let i=array.length-1;i>0;i--){
-
-let j=Math.floor(Math.random()*(i+1))
-
-let temp=array[i]
-array[i]=array[j]
-array[j]=temp
+alert("Papelito agregado")
 
 }
 
-return array
-}
+async function sacar(){
 
-function startGame(){
+const querySnapshot=await getDocs(collection(db,"papelitos"))
 
-deck=shuffle([...words])
-alert("Juego iniciado")
+let lista=[]
 
-}
+querySnapshot.forEach((doc)=>{
+lista.push(doc.data())
+})
 
-function draw(){
+if(lista.length==0)return
 
-if(deck.length==0){
+let random=lista[Math.floor(Math.random()*lista.length)]
 
-deck=shuffle([...words])
-alert("Se reinició la bolsa")
-
-}
-
-let word=deck.shift()
-
-document.getElementById("paper").innerText=word
+document.getElementById("resultado").innerHTML=
+random.palabra+"<br>"+random.r1+"<br>"+random.r2
 
 }
 
