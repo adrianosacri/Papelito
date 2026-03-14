@@ -636,8 +636,8 @@
         sacarBtn.disabled = true;
         return;
       }
-       if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
-        estado.textContent = `Timer pausado en ${Math.ceil(state.timerPausedAtMs / 60000)} segundos.`;
+      if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
+        estado.textContent = `Timer pausado en ${Math.ceil(state.timerPausedAtMs / 1000)} segundos. Toca "Para Loquita" para reanudar.`;
       } else if(state.timerEndAt){
         estado.textContent = "Sapeee activado.";
       } else if(!state.juegoIniciado){
@@ -648,7 +648,12 @@
         estado.textContent = `Juego iniciado. Quedan ${restantes} papelitos.`;
       }
 
-      sacarBtn.disabled = !state.juegoIniciado || restantes <= 0;
+      // Sacar depende SOLO del juego, no del timer
+      if(!state.juegoIniciado || restantes <= 0){
+        sacarBtn.disabled = true;
+      } else {
+        sacarBtn.disabled = false;
+      }
     }
 
     function startOverlayLoop(){
@@ -888,19 +893,28 @@
 
     async function pauseTimer(){
       const duration = state.timerDurationMs || TIMER_DURATION_MS;
-      let remainingMs = duration;
 
-      if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
-        remainingMs = state.timerPausedAtMs;
-      } else if(state.timerEndAt){
-        remainingMs = Math.max(0, state.timerEndAt - Date.now());
+      // Si está corriendo, pausa
+      if(state.timerEndAt){
+        const remainingMs = Math.max(0, state.timerEndAt - Date.now());
+
+        await updateDoc(doc(db, "gameState", "main"), {
+          timerEndAt: null,
+          timerPausedAtMs: remainingMs,
+          timerFinishedMessageAt: null
+        });
+        return;
       }
 
-      await updateDoc(doc(db, "gameState", "main"), {
-        timerEndAt: null,
-        timerPausedAtMs: remainingMs,
-        timerFinishedMessageAt: null
-      });
+      // Si está pausado, reanuda
+      if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
+        await updateDoc(doc(db, "gameState", "main"), {
+          timerEndAt: Date.now() + state.timerPausedAtMs,
+          timerPausedAtMs: null,
+          timerDurationMs: duration,
+          timerFinishedMessageAt: null
+        });
+      }
     }
 
     function bindEvents(){
@@ -952,4 +966,4 @@
     init();
   </script>
 </body>
-</html>  
+</html>
