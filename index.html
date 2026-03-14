@@ -637,7 +637,7 @@
         return;
       }
        if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
-        estado.textContent = `Timer pausado en ${Math.ceil(state.timerPausedAtMs / 1000)} segundos.`;
+        estado.textContent = `Timer pausado en ${Math.ceil(state.timerPausedAtMs / 60000)} segundos.`;
       } else if(state.timerEndAt){
         estado.textContent = "Sapeee activado.";
       } else if(!state.juegoIniciado){
