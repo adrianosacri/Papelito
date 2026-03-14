@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -287,6 +287,7 @@
     let papelitos = [];
     let timerLocal = null;
     let overlayLocal = null;
+    let timerFinishHandled = false;
 
     let state = {
       juegoIniciado: false,
@@ -367,6 +368,7 @@
       }
 
       const current = papelitos.find(p => p.id === state.currentPaperId);
+
       if(!current){
         resultado.innerHTML = `
           <div class="result-empty">
@@ -412,6 +414,11 @@
         estado.textContent = `Juego iniciado. Papelitos restantes: ${restantes}`;
       }
 
+      if(state.timerFinishedMessageAt){
+        sacarBtn.disabled = true;
+        return;
+      }
+
       sacarBtn.disabled = !state.juegoIniciado || restantes <= 0;
     }
 
@@ -454,12 +461,16 @@
           const progress = ((duration - state.timerPausedAtMs) / duration) * 100;
           timerValue.textContent = String(s);
           timerBarFill.style.width = `${Math.max(0, Math.min(100, progress))}%`;
+          timerFinishHandled = false;
           return;
         }
 
         if(!state.timerEndAt){
-          timerValue.textContent = "60";
-          timerBarFill.style.width = "0%";
+          if(!state.timerFinishedMessageAt){
+            timerValue.textContent = "60";
+            timerBarFill.style.width = "0%";
+          }
+          timerFinishHandled = false;
           return;
         }
 
@@ -469,14 +480,31 @@
         timerValue.textContent = String(s);
         timerBarFill.style.width = `${Math.max(0, Math.min(100, progress))}%`;
 
-        if(left <= 0 && !state.timerFinishedMessageAt){
+        if(left <= 0 && !timerFinishHandled){
+          timerFinishHandled = true;
           try{
             await updateDoc(doc(db, "gameState", "main"), {
               timerEndAt: null,
-              timerPausedAtMs: 0,
+              timerPausedAtMs: null,
               timerFinishedMessageAt: Date.now()
             });
-          }catch(err){
+
+            setTimeout(async () => {
+              try{
+                const currentSnap = await getDoc(doc(db, "gameState", "main"));
+                if(!currentSnap.exists()) return;
+                const currentState = currentSnap.data();
+                if(currentState.timerFinishedMessageAt){
+                  await updateDoc(doc(db, "gameState", "main"), {
+                    timerFinishedMessageAt: null
+                  });
+                }
+              } catch(err){
+                console.error("Error limpiando mensaje de fin de timer:", err);
+              }
+            }, 2000);
+
+          } catch(err){
             console.error(err);
           }
         }
@@ -539,6 +567,7 @@
     async function drawPaper(){
       if(!state.juegoIniciado) return;
       if(state.countdownEndAt && Date.now() < state.countdownEndAt) return;
+      if(state.timerFinishedMessageAt) return;
 
       const usados = state.usados || [];
       const disponibles = papelitos.filter(p => !usados.includes(p.id));
@@ -552,134 +581,3 @@
         `;
         return;
       }
-
-      const selected = disponibles[Math.floor(Math.random() * disponibles.length)];
-      await updateDoc(doc(db, "gameState", "main"), {
-        currentPaperId: selected.id,
-        usados: [...usados, selected.id]
-      });
-    }
-
-    async function newRound(){
-      if(papelitos.length === 0){
-        alert("No hay papelitos guardados.");
-        return;
-      }
-      await updateDoc(doc(db, "gameState", "main"), {
-        juegoIniciado: true,
-        usados: [],
-        currentPaperId: null,
-        countdownType: "newRound",
-        countdownEndAt: Date.now() + 3000,
-        timerEndAt: null,
-        timerPausedAtMs: null,
-        timerFinishedMessageAt: null
-      });
-    }
-
-    async function clearAll(){
-      await updateDoc(doc(db, "gameState", "main"), {
-        countdownType: "clear",
-        countdownEndAt: Date.now() + 3000
-      });
-
-      setTimeout(async () => {
-        try{
-          const snap = await getDocs(collection(db, "papelitos"));
-          for(const d of snap.docs){
-            await deleteDoc(doc(db, "papelitos", d.id));
-          }
-          await setDoc(doc(db, "gameState", "main"), {
-            juegoIniciado: false,
-            usados: [],
-            currentPaperId: null,
-            countdownEndAt: null,
-            countdownType: null,
-            timerEndAt: null,
-            timerDurationMs: 60000,
-            timerPausedAtMs: null,
-            timerFinishedMessageAt: null
-          });
-        } catch(err){
-          console.error(err);
-          alert("No se pudo limpiar todo.");
-        }
-      }, 3000);
-    }
-
-    async function startTimer60(){
-      await updateDoc(doc(db, "gameState", "main"), {
-        timerEndAt: Date.now() + 60000,
-        timerDurationMs: 60000,
-        timerPausedAtMs: null,
-        timerFinishedMessageAt: null
-      });
-    }
-
-    async function pauseTimer(){
-      const duration = state.timerDurationMs || 60000;
-      let remainingMs = duration;
-
-      if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
-        remainingMs = state.timerPausedAtMs;
-      } else if(state.timerEndAt){
-        remainingMs = Math.max(0, state.timerEndAt - Date.now());
-      }
-
-      await updateDoc(doc(db, "gameState", "main"), {
-        timerEndAt: null,
-        timerPausedAtMs: remainingMs,
-        timerFinishedMessageAt: null
-      });
-    }
-
-    function bindEvents(){
-      agregarBtn.addEventListener("click", addPaper);
-      iniciarBtn.addEventListener("click", startGame);
-      sacarBtn.addEventListener("click", drawPaper);
-      nuevoRoundBtn.addEventListener("click", newRound);
-      limpiarBtn.addEventListener("click", clearAll);
-      sapeeeBtn.addEventListener("click", startTimer60);
-      paraLoquitaBtn.addEventListener("click", pauseTimer);
-    }
-
-    function listenPapers(){
-      onSnapshot(collection(db, "papelitos"), (snapshot) => {
-        papelitos = snapshot.docs.map(d => ({ id:d.id, ...d.data() }));
-        renderList();
-        renderPaper();
-        renderStatus();
-      }, (err) => {
-        console.error("Error papelitos:", err);
-      });
-    }
-
-    function listenState(){
-      onSnapshot(doc(db, "gameState", "main"), (snap) => {
-        if(!snap.exists()) return;
-        state = snap.data();
-        renderPaper();
-        renderStatus();
-      }, (err) => {
-        console.error("Error gameState:", err);
-      });
-    }
-
-    async function init(){
-      try{
-        await ensureState();
-        bindEvents();
-        listenPapers();
-        listenState();
-        startOverlayLoop();
-        startTimerLoop();
-      } catch(err){
-        console.error("Error init:", err);
-        alert("Hubo un error al iniciar la app. Revisa Firebase o vuelve a cargar.");
-      }
-    }
-
-    init();
-  </script>
-</body>
-</html>
