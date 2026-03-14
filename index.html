@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Papelito</title><style>
+<title>Papelito</title>
+
+<style>
 :root{
   --bg1:#120f25;
   --bg2:#2a1c4a;
@@ -18,6 +21,7 @@
 }
 
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial, Helvetica, sans-serif;
@@ -30,12 +34,42 @@ body{
   min-height:100vh;
   padding:18px;
 }
-.container{max-width:900px;margin:0 auto}
-.hero{text-align:center;margin-bottom:18px;animation:fadeUp .7s ease}
-.hero h1{margin:6px 0 8px;font-size:48px;font-weight:900;text-shadow:0 8px 30px rgba(0,0,0,.35)}
-.hero p{margin:0;color:var(--muted);font-size:14px}
-.grid{display:grid;gap:16px}
-@media(min-width:860px){.grid{grid-template-columns:1.05fr .95fr}}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+}
+
+.hero{
+  text-align:center;
+  margin-bottom:18px;
+  animation:fadeUp .7s ease;
+}
+
+.hero h1{
+  margin:6px 0 8px;
+  font-size:48px;
+  font-weight:900;
+  text-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.hero p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.grid{
+  display:grid;
+  gap:16px;
+}
+
+@media(min-width:860px){
+  .grid{
+    grid-template-columns:1.05fr .95fr;
+  }
+}
+
 .card{
   background:var(--card);
   border:1px solid var(--line);
@@ -45,26 +79,82 @@ body{
   box-shadow:0 16px 40px rgba(0,0,0,.24);
   animation:fadeUp .7s ease;
 }
-.section-title{margin:0 0 12px;font-size:22px;font-weight:900}
-input{
-  width:100%;padding:14px;margin:6px 0;border-radius:14px;
-  border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);
-  color:white;font-size:16px;outline:none;
+
+.section-title{
+  margin:0 0 12px;
+  font-size:22px;
+  font-weight:900;
 }
-input::placeholder{color:#d8d1ea}
-.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+
+input{
+  width:100%;
+  padding:14px;
+  margin:6px 0;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.08);
+  color:white;
+  font-size:16px;
+  outline:none;
+}
+
+input::placeholder{
+  color:#d8d1ea;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+
 button{
-  border:none;border-radius:14px;padding:12px 16px;font-size:15px;font-weight:800;
-  cursor:pointer;transition:transform .16s ease, opacity .16s ease, box-shadow .16s ease;
+  border:none;
+  border-radius:14px;
+  padding:12px 16px;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .16s ease, opacity .16s ease, box-shadow .16s ease;
   box-shadow:0 8px 20px rgba(0,0,0,.18);
 }
-button:hover{transform:translateY(-1px) scale(1.01)}
-button:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.primary{background:linear-gradient(135deg, var(--accent2), var(--accent));color:#1b112d}
-.secondary{background:rgba(255,255,255,.16);color:white}
-.success{background:linear-gradient(135deg, #19b85e, #42eb90);color:#052814}
-.danger{background:linear-gradient(135deg, #ff3b3b, #ff7b7b);color:white}
-.pink{background:linear-gradient(135deg, #ff4fd8, #ff9cf0);color:#290526}
+
+button:hover{
+  transform:translateY(-1px) scale(1.01);
+}
+
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.primary{
+  background:linear-gradient(135deg, var(--accent2), var(--accent));
+  color:#1b112d;
+}
+
+.secondary{
+  background:rgba(255,255,255,.16);
+  color:white;
+}
+
+.success{
+  background:linear-gradient(135deg, #19b85e, #42eb90);
+  color:#052814;
+}
+
+.danger{
+  background:linear-gradient(135deg, #ff3b3b, #ff7b7b);
+  color:white;
+}
+
+.pink{
+  background:linear-gradient(135deg, #ff4fd8, #ff9cf0);
+  color:#290526;
+}
+
 .big-draw{
   background:linear-gradient(135deg, #ffd84d, #ff8a1d);
   color:#241235;
@@ -74,61 +164,246 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
   min-width:220px;
   box-shadow:0 14px 30px rgba(255,138,29,.35), 0 0 0 2px rgba(255,255,255,.12) inset;
 }
-.big-draw:hover{transform:translateY(-2px) scale(1.02)}
-.counter{margin:14px 0 8px;font-size:18px;font-weight:800}
+
+.big-draw:hover{
+  transform:translateY(-2px) scale(1.02);
+}
+
+.counter{
+  margin:14px 0 8px;
+  font-size:18px;
+  font-weight:800;
+}
+
 .list{
-  min-height:100px;border-radius:18px;background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);padding:10px;text-align:left;
+  min-height:100px;
+  border-radius:18px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  padding:10px;
+  text-align:left;
 }
+
 .item{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  padding:10px;border-bottom:1px solid rgba(255,255,255,.08);animation:itemIn .25s ease;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  animation:itemIn .25s ease;
 }
-.item:last-child{border-bottom:none}
-.mask{font-weight:900;letter-spacing:2px}
+
+.item:last-child{
+  border-bottom:none;
+}
+
+.mask{
+  font-weight:900;
+  letter-spacing:2px;
+}
+
 .code{
-  font-size:12px;font-weight:900;color:#1a1032;background:linear-gradient(135deg, #fff, #ddd3ff);
-  padding:6px 10px;border-radius:999px;min-width:82px;text-align:center;letter-spacing:1px;
+  font-size:12px;
+  font-weight:900;
+  color:#1a1032;
+  background:linear-gradient(135deg, #fff, #ddd3ff);
+  padding:6px 10px;
+  border-radius:999px;
+  min-width:82px;
+  text-align:center;
+  letter-spacing:1px;
 }
-.note{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.4}
+
+.note{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.4;
+}
+
 .result{
-  min-height:320px;display:flex;align-items:center;justify-content:center;text-align:center;
-  border-radius:22px;background:radial-gradient(circle at top, rgba(255,255,255,.22), transparent 40%), linear-gradient(160deg, rgba(255,204,51,.18), rgba(255,79,216,.14));
-  border:1px solid rgba(255,255,255,.14);padding:22px;overflow:hidden;position:relative;
+  min-height:320px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.22), transparent 40%),
+    linear-gradient(160deg, rgba(255,204,51,.18), rgba(255,79,216,.14));
+  border:1px solid rgba(255,255,255,.14);
+  padding:22px;
+  overflow:hidden;
+  position:relative;
 }
-.result-empty{color:var(--muted);font-size:19px;line-height:1.5;max-width:430px}
-.paper{animation:paperPop .35s ease;position:relative;z-index:2}
-.word{font-size:44px;font-weight:900;margin-bottom:16px;text-shadow:0 10px 25px rgba(0,0,0,.2);word-break:break-word}
-.rules{color:#ffd3f7;font-size:18px;line-height:1.6;font-weight:700}
-.rules div{margin:6px 0}
-.rules .sub{color:#ffe6aa;font-size:14px;font-weight:900;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase}
-.timerBox{margin-top:14px;border-radius:18px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.1);padding:14px}
-.timerLabel{color:var(--muted);font-size:13px;margin-bottom:6px}
-.timerValue{font-size:44px;font-weight:900}
-.timerBar{height:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:10px}
-.timerBarFill{height:100%;width:0%;background:linear-gradient(90deg, #ff4fd8, #ffcc33, #24d16f);transition:width .2s linear}
-.status{margin-top:12px;color:var(--muted);font-size:14px;min-height:18px}
+
+.result-empty{
+  color:var(--muted);
+  font-size:19px;
+  line-height:1.5;
+  max-width:430px;
+}
+
+.paper{
+  animation:paperPop .35s ease;
+  position:relative;
+  z-index:2;
+}
+
+.word{
+  font-size:44px;
+  font-weight:900;
+  margin-bottom:16px;
+  text-shadow:0 10px 25px rgba(0,0,0,.2);
+  word-break:break-word;
+}
+
+.rules{
+  color:#ffd3f7;
+  font-size:18px;
+  line-height:1.6;
+  font-weight:700;
+}
+
+.rules div{
+  margin:6px 0;
+}
+
+.rules .sub{
+  color:#ffe6aa;
+  font-size:14px;
+  font-weight:900;
+  margin-bottom:6px;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+
+.timerBox{
+  margin-top:14px;
+  border-radius:18px;
+  background:rgba(0,0,0,.18);
+  border:1px solid rgba(255,255,255,.1);
+  padding:14px;
+}
+
+.timerLabel{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.timerValue{
+  font-size:44px;
+  font-weight:900;
+}
+
+.timerBar{
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.timerBarFill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, #ff4fd8, #ffcc33, #24d16f);
+  transition:width .2s linear;
+}
+
+.status{
+  margin-top:12px;
+  color:var(--muted);
+  font-size:14px;
+  min-height:18px;
+}
+
 .overlay{
-  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.78);z-index:9999;padding:20px;
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.78);
+  z-index:9999;
+  padding:20px;
 }
+
 .overlayBox{
-  width:min(420px, 100%);border-radius:28px;padding:28px 22px;
-  background:radial-gradient(circle at top, rgba(255,255,255,.12), transparent 45%), linear-gradient(135deg, #1a1032, #2a1c4a);
-  border:1px solid rgba(255,255,255,.16);text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.35);
+  width:min(420px, 100%);
+  border-radius:28px;
+  padding:28px 22px;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.12), transparent 45%),
+    linear-gradient(135deg, #1a1032, #2a1c4a);
+  border:1px solid rgba(255,255,255,.16);
+  text-align:center;
+  box-shadow:0 18px 45px rgba(0,0,0,.35);
   animation:paperPop .25s ease;
 }
-.overlayTitle{font-size:28px;font-weight:900;margin-bottom:8px}
-.overlaySub{color:#ffe6aa;font-size:18px;font-weight:800;margin-bottom:10px}
-.overlayNumber{font-size:86px;font-weight:900;line-height:1}
-.overlayDanger .overlayTitle{color:#ffb3b3}
-.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
-.chip{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.1);font-size:13px;font-weight:800}
-.bottom-controls{margin-top:10px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes paperPop{0%{opacity:0;transform:scale(.92) rotate(-2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
-@keyframes itemIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
-</style></head>
+
+.overlayTitle{
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.overlaySub{
+  color:#ffe6aa;
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.overlayNumber{
+  font-size:86px;
+  font-weight:900;
+  line-height:1;
+}
+
+.overlayDanger .overlayTitle{
+  color:#ffb3b3;
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+  margin-bottom:14px;
+}
+
+.chip{
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.1);
+  font-size:13px;
+  font-weight:800;
+}
+
+.bottom-controls{
+  margin-top:10px;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes paperPop{
+  0%{opacity:0;transform:scale(.92) rotate(-2deg)}
+  100%{opacity:1;transform:scale(1) rotate(0)}
+}
+
+@keyframes itemIn{
+  0%{opacity:0;transform:translateY(8px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
 <body>
 <div class="container">
   <div class="hero">
@@ -139,56 +414,86 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
     </div>
     <h1>Papelito</h1>
     <p>Todos entran al mismo link, agregan papelitos y ven el juego sincronizado.</p>
-  </div>  <div class="grid">
+  </div>
+
+  <div class="grid">
     <div class="card">
       <h2 class="section-title">Agregar papelito</h2>
       <input id="nombre" placeholder="Nombre del papelito" maxlength="50">
       <input id="r1" placeholder="Restricción 1" maxlength="100">
       <input id="r2" placeholder="Restricción 2" maxlength="100">
-      <div class="actions">
-        <button class="primary" onclick="agregar()">Agregar Papelito</button>
-      </div>
-      <div class="counter">Papelitos agregados: <span id="contador">0</span></div>
-      <div id="lista" class="list"><div class="status">Todavía no hay papelitos.</div></div>
-      <div class="note">Cada papelito se muestra oculto como XXXXX, pero con un código único para validar que sí fue guardado.</div>
-    </div><div class="card">
-  <h2 class="section-title">Juego</h2>
-  <div id="resultado" class="result">
-    <div class="result-empty">Agreguen papelitos y luego presionen <strong>Iniciar Juego</strong>.<br><br>Después podrán sacar uno por uno de forma aleatoria.</div>
-  </div>
 
-  <div class="timerBox">
-    <div class="timerLabel">Timer Sapeee</div>
-    <div id="timerValue" class="timerValue">60</div>
-    <div class="timerBar"><div id="timerBarFill" class="timerBarFill"></div></div>
-    <div class="actions" style="margin-top:12px;">
-      <button class="pink" onclick="activarSapeee()">Sapeee</button>
-      <button class="secondary" onclick="paraLoquita()">Para Loquita</button>
+      <div class="actions">
+        <button class="primary" id="agregarBtn">Agregar Papelito</button>
+      </div>
+
+      <div class="counter">Papelitos agregados: <span id="contador">0</span></div>
+      <div id="lista" class="list">
+        <div class="status">Todavía no hay papelitos.</div>
+      </div>
+      <div class="note">
+        Cada papelito se muestra oculto como XXXXX, pero con un código único para validar que sí fue guardado.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Juego</h2>
+
+      <div id="resultado" class="result">
+        <div class="result-empty">
+          Agreguen papelitos y luego presionen <strong>Iniciar Juego</strong>.<br><br>
+          Después podrán sacar uno por uno de forma aleatoria.
+        </div>
+      </div>
+
+      <div class="timerBox">
+        <div class="timerLabel">Timer Sapeee</div>
+        <div id="timerValue" class="timerValue">60</div>
+        <div class="timerBar"><div id="timerBarFill" class="timerBarFill"></div></div>
+
+        <div class="actions" style="margin-top:12px;">
+          <button class="pink" id="sapeeeBtn">Sapeee</button>
+          <button class="secondary" id="paraLoquitaBtn">Para Loquita</button>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top:14px;">
+        <button class="success" id="iniciarBtn">Iniciar Juego</button>
+        <button class="big-draw" id="sacarBtn" disabled>Sacar</button>
+      </div>
+
+      <div class="actions bottom-controls">
+        <button class="secondary" id="nuevoRoundBtn">Nuevo Round</button>
+        <button class="danger" id="limpiarBtn">Limpiar</button>
+      </div>
+
+      <div id="estado" class="status">Agrega papelitos y luego inicia el juego.</div>
     </div>
   </div>
-
-  <div class="actions" style="margin-top:14px;">
-    <button class="success" onclick="iniciar()">Iniciar Juego</button>
-    <button class="big-draw" onclick="sacar()" id="sacarBtn" disabled>Sacar</button>
-  </div>
-  <div class="actions bottom-controls">
-    <button class="secondary" onclick="nuevoRound()">Nuevo Round</button>
-    <button class="danger" onclick="limpiar()">Limpiar</button>
-  </div>
-
-  <div id="estado" class="status">Agrega papelitos y luego inicia el juego.</div>
 </div>
 
-  </div>
-</div><div id="overlay" class="overlay">
+<div id="overlay" class="overlay">
   <div id="overlayBox" class="overlayBox">
     <div id="overlayTitle" class="overlayTitle"></div>
     <div id="overlaySub" class="overlaySub"></div>
     <div id="overlayNumber" class="overlayNumber"></div>
   </div>
-</div><script type="module">
+</div>
+
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD8EqWPqg-VGR-PUExwnqtdy_CXPBRNHGk",
@@ -204,11 +509,19 @@ const db = getFirestore(app);
 
 const contador = document.getElementById("contador");
 const lista = document.getElementById("lista");
-const sacarBtn = document.getElementById("sacarBtn");
 const resultado = document.getElementById("resultado");
 const estado = document.getElementById("estado");
 const timerValue = document.getElementById("timerValue");
 const timerBarFill = document.getElementById("timerBarFill");
+
+const agregarBtn = document.getElementById("agregarBtn");
+const iniciarBtn = document.getElementById("iniciarBtn");
+const sacarBtn = document.getElementById("sacarBtn");
+const nuevoRoundBtn = document.getElementById("nuevoRoundBtn");
+const limpiarBtn = document.getElementById("limpiarBtn");
+const sapeeeBtn = document.getElementById("sapeeeBtn");
+const paraLoquitaBtn = document.getElementById("paraLoquitaBtn");
+
 const overlay = document.getElementById("overlay");
 const overlayBox = document.getElementById("overlayBox");
 const overlayTitle = document.getElementById("overlayTitle");
@@ -227,12 +540,16 @@ let gameState = {
   timerPausedAtMs: null,
   timerFinishedMessageAt: null
 };
+
 let overlayInterval = null;
 let timerInterval = null;
+let isAdding = false;
+let isClearing = false;
 
 async function ensureGameState(){
   const ref = doc(db, "gameState", "main");
   const snap = await getDoc(ref);
+
   if(!snap.exists()){
     await setDoc(ref, {
       juegoIniciado: false,
@@ -251,31 +568,42 @@ async function ensureGameState(){
 function generarCodigo(){
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let code = "";
-  for(let i=0;i<6;i++) code += chars.charAt(Math.floor(Math.random()*chars.length));
+  for(let i = 0; i < 6; i++){
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
   return code;
 }
 
 function generarCodigoUnico(){
   const existentes = new Set(papelitos.map(p => p.codigo));
   let nuevo = generarCodigo();
-  while(existentes.has(nuevo)) nuevo = generarCodigo();
+  while(existentes.has(nuevo)){
+    nuevo = generarCodigo();
+  }
   return nuevo;
 }
 
 function escapeHtml(str){
-  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
 function renderLista(){
-  contador.textContent = papelitos.length;
+  contador.textContent = String(papelitos.length);
+
   if(papelitos.length === 0){
     lista.innerHTML = `<div class="status">Todavía no hay papelitos.</div>`;
     return;
   }
+
   lista.innerHTML = papelitos.map(p => `
     <div class="item">
       <span class="mask">XXXXX</span>
-      <span class="code">${p.codigo || "SINCOD"}</span>
+      <span class="code">${escapeHtml(p.codigo || "SINCOD")}</span>
     </div>
   `).join("");
 }
@@ -286,15 +614,23 @@ function renderPaper(){
       <div class="paper">
         <div class="word">¡Se acabó el tiempo!</div>
         <div class="rules"><div>- NEXT</div></div>
-      </div>`;
+      </div>
+    `;
     return;
   }
 
   const current = papelitos.find(p => p.id === gameState.currentPaperId);
+
   if(!current){
-    resultado.innerHTML = `<div class="result-empty">Agreguen papelitos y luego presionen <strong>Iniciar Juego</strong>.<br><br>Después podrán sacar uno por uno de forma aleatoria.</div>`;
+    resultado.innerHTML = `
+      <div class="result-empty">
+        Agreguen papelitos y luego presionen <strong>Iniciar Juego</strong>.<br><br>
+        Después podrán sacar uno por uno de forma aleatoria.
+      </div>
+    `;
     return;
   }
+
   resultado.innerHTML = `
     <div class="paper">
       <div class="word">${escapeHtml(current.nombre)}</div>
@@ -303,7 +639,8 @@ function renderPaper(){
         <div>- ${escapeHtml(current.r1)}</div>
         <div>- ${escapeHtml(current.r2)}</div>
       </div>
-    </div>`;
+    </div>
+  `;
 }
 
 function renderStatus(){
@@ -320,7 +657,7 @@ function renderStatus(){
   if(gameState.timerFinishedMessageAt){
     estado.textContent = "¡Se acabó el tiempo! NEXT";
   } else if(gameState.timerPausedAtMs !== null && gameState.timerPausedAtMs !== undefined){
-    estado.textContent = `Timer pausado en ${Math.ceil(gameState.timerPausedAtMs/1000)} segundos.`;
+    estado.textContent = `Timer pausado en ${Math.ceil(gameState.timerPausedAtMs / 1000)} segundos.`;
   } else if(gameState.timerEndAt){
     estado.textContent = "Sapeee activado. El tiempo está corriendo.";
   } else if(!gameState.juegoIniciado){
@@ -336,39 +673,46 @@ function renderStatus(){
 
 function startOverlayRenderer(){
   if(overlayInterval) clearInterval(overlayInterval);
+
   overlayInterval = setInterval(() => {
     const endAt = gameState.countdownEndAt;
     const type = gameState.countdownType;
+
     if(!endAt || Date.now() >= endAt){
       overlay.style.display = "none";
       renderStatus();
       return;
     }
+
     const msLeft = endAt - Date.now();
     const seconds = Math.max(1, Math.ceil(msLeft / 1000));
+
     overlay.style.display = "flex";
     overlayBox.className = "overlayBox";
+
     if(type === "start"){
       overlayTitle.textContent = "Sapeeeee";
       overlaySub.textContent = "El juego empieza en...";
-    }else if(type === "newRound"){
+    } else if(type === "newRound"){
       overlayTitle.textContent = "Sapeeeee";
       overlaySub.textContent = "Nuevo juego en...";
-    }else if(type === "clear"){
+    } else if(type === "clear"){
       overlayBox.className = "overlayBox overlayDanger";
       overlayTitle.textContent = "⚠️ Impacto total";
       overlaySub.textContent = "Se borrará absolutamente todo en...";
-    }else{
+    } else {
       overlayTitle.textContent = "Prepárense";
       overlaySub.textContent = "";
     }
-    overlayNumber.textContent = seconds;
+
+    overlayNumber.textContent = String(seconds);
   }, 80);
 }
 
 function startTimerRenderer(){
   if(timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
+
+  timerInterval = setInterval(async () => {
     const duration = gameState.timerDurationMs || 60000;
     const pausedAt = gameState.timerPausedAtMs;
     const endAt = gameState.timerEndAt;
@@ -390,25 +734,32 @@ function startTimerRenderer(){
     const left = Math.max(0, endAt - Date.now());
     const seconds = Math.ceil(left / 1000);
     const progress = Math.min(100, Math.max(0, ((duration - left) / duration) * 100));
+
     timerValue.textContent = String(seconds);
     timerBarFill.style.width = progress + "%";
 
     if(left <= 0 && !gameState.timerFinishedMessageAt){
-      updateDoc(doc(db, "gameState", "main"), {
-        timerEndAt: null,
-        timerPausedAtMs: 0,
-        timerFinishedMessageAt: Date.now()
-      });
+      try{
+        await updateDoc(doc(db, "gameState", "main"), {
+          timerEndAt: null,
+          timerPausedAtMs: 0,
+          timerFinishedMessageAt: Date.now()
+        });
+      } catch(e){
+        console.error("Error cerrando timer:", e);
+      }
     }
   }, 100);
 }
 
 function subscribePapelitos(){
   onSnapshot(collection(db, "papelitos"), snapshot => {
-    papelitos = snapshot.docs.map(d => ({ id:d.id, ...d.data() }));
+    papelitos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
     renderLista();
     renderPaper();
     renderStatus();
+  }, error => {
+    console.error("Error onSnapshot papelitos:", error);
   });
 }
 
@@ -418,113 +769,80 @@ function subscribeGameState(){
     gameState = snap.data();
     renderPaper();
     renderStatus();
+  }, error => {
+    console.error("Error onSnapshot gameState:", error);
   });
 }
 
-window.agregar = async function(){
+async function agregar(){
+  if(isAdding) return;
+
   const nombre = document.getElementById("nombre").value.trim();
   const r1 = document.getElementById("r1").value.trim();
   const r2 = document.getElementById("r2").value.trim();
+
   if(!nombre || !r1 || !r2){
     alert("Completa el nombre del papelito y las 2 restricciones.");
     return;
   }
+
   if(gameState.juegoIniciado){
     alert("El juego ya empezó. Ya no se pueden agregar más papelitos.");
     return;
   }
-  await addDoc(collection(db, "papelitos"), {
-    nombre, r1, r2, codigo: generarCodigoUnico(), createdAt: Date.now()
-  });
-  document.getElementById("nombre").value = "";
-  document.getElementById("r1").value = "";
-  document.getElementById("r2").value = "";
-};
 
-window.iniciar = async function(){
+  isAdding = true;
+  agregarBtn.disabled = true;
+
+  try{
+    await addDoc(collection(db, "papelitos"), {
+      nombre,
+      r1,
+      r2,
+      codigo: generarCodigoUnico(),
+      createdAt: Date.now()
+    });
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("r1").value = "";
+    document.getElementById("r2").value = "";
+  } catch(e){
+    console.error("Error agregando papelito:", e);
+    alert("No se pudo agregar el papelito.");
+  } finally {
+    isAdding = false;
+    agregarBtn.disabled = false;
+  }
+}
+
+async function iniciar(){
   if(papelitos.length === 0){
     alert("Primero agrega al menos un papelito.");
     return;
   }
-  await updateDoc(doc(db, "gameState", "main"), {
-    juegoIniciado: true,
-    usados: [],
-    currentPaperId: null,
-    countdownType: "start",
-    countdownEndAt: Date.now() + 3000,
-    timerEndAt: null,
-    timerPausedAtMs: null,
-    timerFinishedMessageAt: null
-  });
-};
 
-window.sacar = async function(){
-  if(!gameState.juegoIniciado || (gameState.countdownEndAt && Date.now() < gameState.countdownEndAt)) return;
-  const usados = gameState.usados || [];
-  const disponibles = papelitos.filter(p => !usados.includes(p.id));
-  if(disponibles.length === 0){
-    resultado.innerHTML = `<div class="paper"><div class="word">No quedan papelitos</div><div class="rules"><div>- Presiona \"Nuevo Round\" para volver a empezar</div></div></div>`;
-    return;
-  }
-  const selected = disponibles[Math.floor(Math.random() * disponibles.length)];
-  await updateDoc(doc(db, "gameState", "main"), {
-    currentPaperId: selected.id,
-    usados: [...usados, selected.id]
-  });
-};
-
-window.nuevoRound = async function(){
-  if(papelitos.length === 0){
-    alert("No hay papelitos guardados.");
-    return;
-  }
-  await updateDoc(doc(db, "gameState", "main"), {
-    juegoIniciado: true,
-    usados: [],
-    currentPaperId: null,
-    countdownType: "newRound",
-    countdownEndAt: Date.now() + 3000,
-    timerEndAt: null,
-    timerPausedAtMs: null,
-    timerFinishedMessageAt: null
-  });
-};
-
-window.limpiar = async function(){
-  await updateDoc(doc(db, "gameState", "main"), {
-    countdownType: "clear",
-    countdownEndAt: Date.now() + 3000
-  });
-  setTimeout(async () => {
-    const snapshot = await getDocs(collection(db, "papelitos"));
-    for(const d of snapshot.docs) await deleteDoc(doc(db, "papelitos", d.id));
-    await setDoc(doc(db, "gameState", "main"), {
-      juegoIniciado: false,
+  try{
+    await updateDoc(doc(db, "gameState", "main"), {
+      juegoIniciado: true,
       usados: [],
       currentPaperId: null,
-      countdownEndAt: null,
-      countdownType: null,
+      countdownType: "start",
+      countdownEndAt: Date.now() + 3000,
       timerEndAt: null,
-      timerDurationMs: 60000,
       timerPausedAtMs: null,
       timerFinishedMessageAt: null
     });
-  }, 3000);
-};
+  } catch(e){
+    console.error("Error iniciando juego:", e);
+    alert("No se pudo iniciar el juego.");
+  }
+}
 
-window.activarSapeee = async function(){
-  await updateDoc(doc(db, "gameState", "main"), {
-    timerEndAt: Date.now() + 60000,
-    timerDurationMs: 60000,
-    timerPausedAtMs: null,
-    timerFinishedMessageAt: null
-  });
-};
+async function sacar(){
+  if(!gameState.juegoIniciado) return;
+  if(gameState.countdownEndAt && Date.now() < gameState.countdownEndAt) return;
 
-window.paraLoquita = async function(){
-  const duration = gameState.timerDurationMs || 60000;
-  let remainingMs = duration;
-  if(gameState.timerPausedAtMs !== null && gameState.timerPausedAtMs !== undefined){
-    remainingMs = gameState.timerPausedAtMs;
-  } else if(gameState.timerEndAt){
-    remainingMs = Math.max(0, gameState.timerEndAt - Date.now(
+  const usados = gameState.usados || [];
+  const disponibles = papelitos.filter(p => !usados.includes(p.id));
+
+  if(disponibles.length 
