@@ -1,5 +1,4 @@
-
-     <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -378,7 +377,7 @@
       <div class="chips">
         <div class="chip">Multijugador</div>
         <div class="chip">Tiempo real</div>
-        <div class="chip">Timer 10 segundos</div>
+        <div class="chip">Timer 60 segundos</div>
       </div>
       <h1>Papelito</h1>
       <p>Todos entran al mismo link, agregan papelitos y ven el juego sincronizado.</p>
@@ -419,7 +418,7 @@
 
         <div class="timer-box">
           <div class="timer-label">Timer Sapeee</div>
-          <div id="timerValue" class="timer-value">10</div>
+          <div id="timerValue" class="timer-value">60</div>
           <div class="timer-bar">
             <div id="timerBarFill" class="timer-bar-fill"></div>
           </div>
@@ -480,7 +479,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const TIMER_DURATION_MS = 10000;
+    const TIMER_DURATION_MS = 60000;
 
     const contador = document.getElementById("contador");
     const lista = document.getElementById("lista");
@@ -583,10 +582,14 @@
 
     function renderPaper(){
       if(state.timerFinishedMessageAt){
+        const restantes = Math.max(0, papelitos.length - (state.usados || []).length);
         resultado.innerHTML = `
           <div class="paper">
             <div class="word">¡Se acabó el tiempo!</div>
-            <div class="rules"><div>- NEXT</div></div>
+            <div class="rules">
+              <div>- NEXT</div>
+              <div>- Quedan ${restantes} papelitos</div>
+            </div>
           </div>
         `;
         return;
@@ -604,6 +607,8 @@
         return;
       }
 
+      const restantes = Math.max(0, papelitos.length - (state.usados || []).length);
+
       resultado.innerHTML = `
         <div class="paper">
           <div class="word">${escapeHtml(current.nombre)}</div>
@@ -611,6 +616,7 @@
             <div class="sub">Restricciones</div>
             <div>- ${escapeHtml(current.r1)}</div>
             <div>- ${escapeHtml(current.r2)}</div>
+            <div>- Quedan ${restantes} papelitos</div>
           </div>
         </div>
       `;
@@ -629,17 +635,17 @@
         estado.textContent = "¡Se acabó el tiempo! NEXT";
         sacarBtn.disabled = true;
         return;
-      } 
-      if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
+      }
+       if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
         estado.textContent = `Timer pausado en ${Math.ceil(state.timerPausedAtMs / 1000)} segundos.`;
       } else if(state.timerEndAt){
-        estado.textContent = "Sapeee activado. El tiempo está corriendo.";
+        estado.textContent = "Sapeee activado.";
       } else if(!state.juegoIniciado){
         estado.textContent = "Agrega papelitos y luego inicia el juego.";
       } else if(restantes <= 0){
         estado.textContent = 'No quedan papelitos. Presiona "Nuevo Round".';
       } else {
-        estado.textContent = `Juego iniciado. Papelitos restantes: ${restantes}`;
+        estado.textContent = `Juego iniciado. Quedan ${restantes} papelitos.`;
       }
 
       sacarBtn.disabled = !state.juegoIniciado || restantes <= 0;
@@ -692,7 +698,7 @@
 
         if(!state.timerEndAt){
           if(!state.timerFinishedMessageAt){
-            timerValue.textContent = "10";
+            timerValue.textContent = "60";
             timerBarFill.style.width = "0%";
           }
           timerFinishHandled = false;
@@ -871,7 +877,7 @@
       }, 3000);
     }
 
-    async function startTimer10(){
+    async function startTimer60(){
       await updateDoc(doc(db, "gameState", "main"), {
         timerEndAt: Date.now() + TIMER_DURATION_MS,
         timerDurationMs: TIMER_DURATION_MS,
@@ -903,7 +909,7 @@
       sacarBtn.addEventListener("click", drawPaper);
       nuevoRoundBtn.addEventListener("click", newRound);
       limpiarBtn.addEventListener("click", clearAll);
-      sapeeeBtn.addEventListener("click", startTimer10);
+      sapeeeBtn.addEventListener("click", startTimer60);
       paraLoquitaBtn.addEventListener("click", pauseTimer);
     }
 
@@ -946,4 +952,4 @@
     init();
   </script>
 </body>
-</html>
+</html>  
