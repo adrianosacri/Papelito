@@ -744,7 +744,9 @@
             if(state.timerPausedAtMs !== null && state.timerPausedAtMs !== undefined){
         estado.textContent = `Timer pausado en ${Math.ceil(state.timerPausedAtMs / 1000)} segundos. Toca "Time On" para reanudar.`;
       } else if(state.timerEndAt){
-        estado.textContent = "Timer corriendo.";
+          const usados = state.usados || [];
+  const sacados = Math.max(0, usados.length - 1);
+  estado.textContent = `Papeles sacados: ${sacados}`;
       } else if(!state.juegoIniciado){
         estado.textContent = "Agrega papelitos y luego inicia el juego.";
       } else if(restantes <= 0){
